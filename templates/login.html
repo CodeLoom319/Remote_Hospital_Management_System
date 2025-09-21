@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <!-- MDB CSS -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Bootstrap Icons CSS for navbar icon -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  
+  <style>
+    body {
+      background-color: #f0f2f5;
+    }
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-card {
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background-color: #fff;
+      max-width: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar with hospital icon -->
+<nav class="navbar navbar-light bg-light px-3">
+  <a class="navbar-brand d-flex align-items-center" href="#">
+    <i class="bi bi-hospital-fill fs-3 me-2"></i>
+    <span>Remote Hospital Management System</span>
+  </a>
+</nav>
+
+<div class="login-container">
+  <div class="login-card">
+    <h3 class="text-center mb-4">Login</h3>
+    <form action="/auth/login" method="post" id="loginForm">
+      <!-- Username input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" name="username" id="username" class="form-control" required />
+        <label class="form-label" for="username">Username</label>
+      </div>
+
+      <!-- Password input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input type="password" name="password" id="password" class="form-control" required />
+        <label class="form-label" for="password">Password</label>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="btn btn-primary btn-block mb-4 w-100">Login</button>
+
+      <!-- Register / Social login -->
+      <div class="text-center">
+        <p>Not a member? <a href="{{ url_for('auth_routes.register_page') }}">Register</a></p>
+        <p>or sign up with:</p>
+        <button type="button" class="btn btn-link btn-floating mx-1">
+          <i class="fab fa-facebook-f"></i>
+        </button>
+        <button type="button" class="btn btn-link btn-floating mx-1">
+          <i class="fab fa-google"></i>
+        </button>
+        <button type="button" class="btn btn-link btn-floating mx-1">
+          <i class="fab fa-twitter"></i>
+        </button>
+        <button type="button" class="btn btn-link btn-floating mx-1">
+          <i class="fab fa-github"></i>
+        </button>
+      </div>
+
+      <p id="message" class="text-danger mt-2"></p>
+    </form>
+  </div>
+</div>
+
+<!-- MDB JS -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"
+></script>
+
+<script>
+const form = document.getElementById("loginForm");
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = {
+        username: form.username.value,
+        password: form.password.value
+    };
+    const res = await fetch("/auth/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    });
+    const result = await res.json();
+    
+    if (res.status === 200) {
+        // Redirect based on role
+        if(result.message.includes("patient")) {
+            window.location.href = "/patient/dashboard";
+        } else {
+            window.location.href = "/doctor/dashboard";
+        }
+    } else {
+        document.getElementById("message").innerText = result.message;
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prescribe</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <style>
+    body {
+      background-color: #f0f2f5;
+      padding-top: 70px; /* space for fixed navbar */
+    }
+    .prescribe-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 2rem;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ced4da;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar with Back to New Requests button -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <i class="bi bi-hospital-fill fs-3 me-2"></i>
+      <span>Remote Hospital Management System</span>
+    </a>
+    <button class="btn btn-primary" onclick="window.location.href='/doctor/new_requests'">Back to New Requests</button>
+  </div>
+</nav>
+
+<div class="prescribe-container">
+    <h2 class="mb-3 text-center">Prescribe for Request ID: {{ request.id }}</h2>
+    <p><strong>Patient ID:</strong> {{ request.patient_id }}</p>
+    <p><strong>Symptoms:</strong> {{ request.symptoms }}</p>
+    {% if request.report_file %}
+        <p><strong>Medical Report:</strong> 
+            <a href="/uploads/{{ request.report_file }}" target="_blank">View</a>
+        </p>
+    {% endif %}
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Prescription / Advice:</label>
+            <textarea name="advice" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Submit Prescription</button>
+    </form>
+</div>
+
+<!-- Bootstrap
