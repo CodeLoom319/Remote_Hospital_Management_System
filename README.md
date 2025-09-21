@@ -1,6 +1,6 @@
 # Remote Hospital Management System
 
-A simple web-based hospital management system built with Flask and SQLite.  
+A simple web-based remote hospital management system built with Flask and SQLite.  
 This system allows patients to register, submit health requests, and view request history, while doctors can view new requests, prescribe advice, and track prescribed requests.
 
 ---
@@ -58,7 +58,7 @@ project/
 
 1. **Clone the repository:**
 
-git clone https://github.com/CodeLoom319/RemoteHospitalManagementSystem.git
+git clone https://github.com/CodeLoom319/Remote_Hospital_Management_System.git
 cd RemoteHospitalManagementSystem
 
 2. Install dependencies:
